@@ -5,6 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Andy Herron‑Newell • CTO & Chief AI Officer</title>
   <meta name="description" content="Andy Herron‑Newell – Technology executive and Chief AI Officer with 25+ years building AI-first platforms in regulated industries. Available for CTO and CAIO roles."/>
+
+  <!-- Open Graph / social preview (#11) -->
+  <meta property="og:type"        content="website"/>
+  <meta property="og:url"         content="https://andy.herron-newell.me/"/>
+  <meta property="og:title"       content="Andy Herron‑Newell • CTO & Chief AI Officer"/>
+  <meta property="og:description" content="Technology executive and Chief AI Officer with 25+ years building AI-first platforms in regulated industries. Available for CTO and CAIO roles."/>
+  <meta property="og:image"       content="https://andy.herron-newell.me/og-image.png"/>
+  <meta name="twitter:card"       content="summary_large_image"/>
+  <meta name="twitter:title"      content="Andy Herron‑Newell • CTO & Chief AI Officer"/>
+  <meta name="twitter:description" content="Technology executive with 25+ years building AI-first platforms in regulated industries."/>
+  <meta name="twitter:image"      content="https://andy.herron-newell.me/og-image.png"/>
+
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -82,10 +94,28 @@
       font-size: 0.9rem;
       font-weight: 500;
       transition: color 0.2s;
+      position: relative;
+      padding-bottom: 2px;
     }
-    .nav-links a:hover {
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--accent-glow);
+      border-radius: 1px;
+      transform: scaleX(0);
+      transition: transform 0.2s ease;
+    }
+    .nav-links a:hover,
+    .nav-links a.active {
       color: var(--fg-light);
       text-decoration: none;
+    }
+    .nav-links a.active::after {
+      transform: scaleX(1);
     }
 
     /* ===== HERO ===== */
@@ -109,11 +139,55 @@
       background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='1' fill='%236366f1' fill-opacity='0.08'/%3E%3C/svg%3E");
       pointer-events: none;
     }
+    /* Slow-moving radial gradient overlay (#5) */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
+      animation: heroGlow 8s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+    @keyframes heroGlow {
+      from { transform: scale(1)   translate(-4%, -4%); opacity: 0.7; }
+      to   { transform: scale(1.2) translate( 4%,  4%); opacity: 1;   }
+    }
     .hero-inner {
       position: relative;
       z-index: 1;
       max-width: 780px;
     }
+
+    /* Avatar / photo slot (#1) */
+    .hero-avatar {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 3px solid rgba(99, 102, 241, 0.5);
+      box-shadow: 0 0 0 6px rgba(99, 102, 241, 0.1), 0 8px 32px rgba(0, 0, 0, 0.4);
+      margin: 0 auto 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1e1b4b, #2e1065);
+      overflow: hidden;
+    }
+    .hero-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    /* Fallback initials — shown when no img src is set */
+    .hero-avatar-initials {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--accent-glow);
+      letter-spacing: -0.04em;
+      line-height: 1;
+      user-select: none;
+    }
+
     .hero h1 {
       font-size: clamp(2.5rem, 6vw, 4.5rem);
       font-weight: 900;
@@ -140,11 +214,17 @@
       color: #ffffff;
       font-weight: 600;
     }
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
     .cta-btn {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      margin-top: 2rem;
       padding: 0.85rem 2rem;
       background: var(--accent);
       color: #ffffff;
@@ -161,11 +241,27 @@
       box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
       text-decoration: none;
     }
+    .cta-btn.cta-secondary {
+      background: transparent;
+      border: 1.5px solid rgba(99, 102, 241, 0.6);
+      color: rgba(241, 245, 249, 0.9);
+    }
+    .cta-btn.cta-secondary:hover {
+      background: rgba(99, 102, 241, 0.15);
+      border-color: var(--accent-glow);
+      color: #ffffff;
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.2);
+    }
     .cta-btn svg {
       width: 18px;
       height: 18px;
       fill: currentColor;
       flex-shrink: 0;
+    }
+    .cta-btn.cta-secondary svg {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
     }
     /* Animated scroll cue */
     .scroll-indicator {
@@ -244,6 +340,49 @@
       line-height: 1.75;
     }
 
+    /* Currently card — distinct treatment (#3) */
+    .currently-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      box-shadow: 0 2px 16px rgba(15, 23, 42, 0.06);
+      position: relative;
+    }
+    .currently-card p {
+      font-size: 1.1rem;
+      color: var(--fg-muted);
+      line-height: 1.75;
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #15803d;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 0.3rem 0.75rem;
+      border-radius: 9999px;
+      margin-bottom: 1.25rem;
+    }
+    .status-badge::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+      animation: pulse 2.4s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2); }
+      50%       { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.05); }
+    }
+
     /* ===== ACHIEVEMENTS ===== */
     .achievements-grid {
       display: grid;
@@ -258,10 +397,35 @@
       padding: 1.75rem;
       box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
       transition: transform 0.25s ease, box-shadow 0.25s ease;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
     }
     .achievement-card:hover {
       transform: translateY(-4px);
       box-shadow: 0 12px 32px rgba(99, 102, 241, 0.12);
+    }
+    .achievement-icon {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-sm);
+      background: rgba(99, 102, 241, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .achievement-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--accent);
+      fill: none;
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .achievement-body {
+      flex: 1;
     }
     .achievement-stat {
       display: block;
@@ -281,18 +445,29 @@
     /* ===== FOOTER ===== */
     .site-footer {
       text-align: center;
-      padding: 3rem 5%;
+      padding: 2.5rem 5%;
       background: var(--bg-dark);
       color: rgba(241, 245, 249, 0.5);
       font-size: 0.9rem;
     }
-    .site-footer a {
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .footer-links a {
       color: var(--accent-glow);
       font-weight: 500;
     }
-    .site-footer a:hover {
+    .footer-links a:hover {
       color: #ffffff;
       text-decoration: none;
+    }
+    .footer-copy {
+      font-size: 0.8rem;
+      opacity: 0.5;
     }
 
     /* ===== ANIMATIONS ===== */
@@ -304,6 +479,7 @@
     .hero-inner > *:nth-child(2) { animation-delay: 0.2s; }
     .hero-inner > *:nth-child(3) { animation-delay: 0.28s; }
     .hero-inner > *:nth-child(4) { animation-delay: 0.38s; }
+    .hero-inner > *:nth-child(5) { animation-delay: 0.46s; }
 
     /* Scroll-reveal — JS adds .visible */
     .reveal {
@@ -323,12 +499,30 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
+    /* ===== REDUCED MOTION (#10) ===== */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .hero-inner > *,
+      .reveal {
+        animation: none !important;
+        transition: none !important;
+        opacity: 1;
+        transform: none;
+      }
+      .hero::after { animation: none; }
+      .scroll-indicator svg { animation: none; }
+      .status-badge::before { animation: none; }
+      .achievement-card { transition: none; }
+      .cta-btn { transition: none; }
+    }
+
     /* ===== RESPONSIVE ===== */
     @media (max-width: 640px) {
       .nav-brand  { font-size: 0.85rem; }
       .nav-links  { gap: 1.25rem; }
       .achievements-grid { grid-template-columns: 1fr; }
-      .about-card { padding: 1.75rem; }
+      .about-card,
+      .currently-card { padding: 1.75rem; }
     }
     @media (max-width: 480px) {
       .nav-brand  { display: none; }
@@ -349,6 +543,7 @@
         <li><a href="#currently">Currently</a></li>
         <li><a href="#how-i-work">How I Work</a></li>
         <li><a href="#achievements">Achievements</a></li>
+        <li><a href="mailto:andy@herron-newell.me">Contact</a></li>
       </ul>
     </div>
   </nav>
@@ -356,18 +551,32 @@
   <!-- HERO -->
   <header class="hero" id="home">
     <div class="hero-inner">
+      <!-- Avatar / photo slot — replace src with your headshot (#1) -->
+      <div class="hero-avatar" aria-hidden="true">
+        <span class="hero-avatar-initials">AHN</span>
+        <!-- <img src="andy.jpg" alt="Andy Herron-Newell"> -->
+      </div>
       <h1>Andy Herron&#8209;Newell</h1>
       <span class="hero-divider" aria-hidden="true"></span>
       <p class="hero-subtitle">
         <strong>Technology executive</strong> with 25+ years building AI&#8209;first platforms and high&#8209;performance engineering teams in regulated industries. Specialising in GenAI strategy, clinical and health technology, and PE/VC&#8209;backed scale&#8209;ups from Series A through successful exit.
       </p>
-      <a class="cta-btn" href="https://www.linkedin.com/in/andyherron" target="_blank" rel="noopener">
-        <!-- LinkedIn logo — inline SVG, no external file -->
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-        </svg>
-        Connect on LinkedIn
-      </a>
+      <!-- Two CTAs: LinkedIn + direct contact (#6) -->
+      <div class="hero-ctas">
+        <a class="cta-btn" href="https://www.linkedin.com/in/andyherron" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          </svg>
+          Connect on LinkedIn
+        </a>
+        <a class="cta-btn cta-secondary" href="mailto:andy@herron-newell.me">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+          Get in Touch
+        </a>
+      </div>
     </div>
     <div class="scroll-indicator" aria-hidden="true">
       <span>Scroll</span>
@@ -392,8 +601,9 @@
     <section id="currently">
       <span class="section-label reveal">Currently</span>
       <h2 class="section-title reveal reveal-delay-1">Currently</h2>
-      <div class="about-card reveal reveal-delay-2">
-        <p>Consulting across a portfolio of stealth-mode startups in HealthTech, BioPharma, and AI -- including a Johns Hopkins BioPharma spinout and two UK clinical and primary care platforms -- advising on AI architecture, fundraising strategy, and regulatory readiness. Open to CTO and Chief AI Officer conversations at PE/VC-backed scale-ups in regulated industries.</p>
+      <div class="currently-card reveal reveal-delay-2">
+        <div class="status-badge">Available for new roles</div>
+        <p>Consulting across a portfolio of stealth-mode startups in HealthTech, BioPharma, and AI — including a Johns Hopkins BioPharma spinout and two UK clinical and primary care platforms — advising on AI architecture, fundraising strategy, and regulatory readiness. Open to CTO and Chief AI Officer conversations at PE/VC-backed scale-ups in regulated industries.</p>
       </div>
     </section>
 
@@ -402,7 +612,7 @@
       <h2 class="section-title reveal reveal-delay-1">How I Work</h2>
       <div class="about-card reveal reveal-delay-2">
         <p>I believe technical credibility isn't something a CTO can delegate. Not because CTOs should be writing production code, they shouldn't, but because the decisions that matter most require you to have genuinely wrestled with the technology, not just read about it.</p>
-        <p>In practice, that means I spend time every week experimenting with emerging tools and building proof-of-concepts, evaluating AI development environments like Claude Code and Codex, prototyping RAG pipelines, exploring agentic workflows, or stress-testing a new architectural approach before committing engineering resources to it. This isn't about staying busy technically. It's about being able to walk into an architecture conversation, a board presentation, or a vendor negotiation and speak from direct experience rather than secondhand reports.</p>
+        <p>In practice, that means I spend time every week experimenting with emerging tools and building proof-of-concepts — evaluating AI development environments, prototyping RAG pipelines, exploring agentic workflows, or stress-testing a new architectural approach before committing engineering resources to it. This isn't about staying busy technically. It's about being able to walk into an architecture conversation, a board presentation, or a vendor negotiation and speak from direct experience rather than secondhand reports.</p>
         <p>It also means my engineering teams know I understand the constraints they're working within. That trust changes the quality of every conversation.</p>
       </div>
     </section>
@@ -412,20 +622,40 @@
       <h2 class="section-title reveal reveal-delay-1">Notable Achievements</h2>
       <div class="achievements-grid">
         <div class="achievement-card reveal reveal-delay-1">
-          <span class="achievement-stat" aria-hidden="true">8M+</span>
-          <p>Built and scaled the NHS telehealth and COVID vaccine booking platforms, serving over 8 million patients at peak demand.</p>
+          <div class="achievement-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="achievement-body">
+            <span class="achievement-stat" aria-hidden="true">8M+</span>
+            <p>Built and scaled the NHS telehealth and COVID vaccine booking platforms, serving over 8 million patients at peak demand.</p>
+          </div>
         </div>
         <div class="achievement-card reveal reveal-delay-2">
-          <span class="achievement-stat" aria-hidden="true">AI&#8209;First</span>
-          <p>Led AI strategy and engineering transformation at TRI, architecting LLM and ML integration into a regulated clinical trials platform.</p>
+          <div class="achievement-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+          </div>
+          <div class="achievement-body">
+            <span class="achievement-stat" aria-hidden="true">AI&#8209;First</span>
+            <p>Led AI strategy and engineering transformation at TRI, architecting LLM and ML integration into a regulated clinical trials platform.</p>
+          </div>
         </div>
         <div class="achievement-card reveal reveal-delay-3">
-          <span class="achievement-stat" aria-hidden="true">ISO 42001</span>
-          <p>Led AI governance framework implementation and gap analysis at two healthcare organisations, establishing responsible AI practices for clinical and regulated environments.</p>
+          <div class="achievement-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div class="achievement-body">
+            <span class="achievement-stat" aria-hidden="true">ISO 42001</span>
+            <p>Led AI governance framework implementation and gap analysis at two healthcare organisations, establishing responsible AI practices for clinical and regulated environments.</p>
+          </div>
         </div>
         <div class="achievement-card reveal reveal-delay-4">
-          <span class="achievement-stat" aria-hidden="true">ISO 27001</span>
-          <p>Achieved multiple regulatory certifications across clinical trials, telehealth, and medical device software — enabling enterprise NHS and international contract wins. ISO 27001 | MHRA | GCP | FDA</p>
+          <div class="achievement-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <div class="achievement-body">
+            <span class="achievement-stat" aria-hidden="true">ISO 27001</span>
+            <p>Achieved multiple regulatory certifications across clinical trials, telehealth, and medical device software — enabling enterprise NHS and international contract wins. ISO 27001 | MHRA | GCP | FDA</p>
+          </div>
         </div>
       </div>
     </section>
@@ -433,10 +663,12 @@
   </main>
 
   <!-- FOOTER -->
-  <footer class="site-footer">
-    <p>Available for CTO, Chief AI Officer, and advisory roles.<br>
-    Connect on <a href="https://www.linkedin.com/in/andyherron" target="_blank" rel="noopener">LinkedIn</a>
-    or reach me at <a href="mailto:andy@herron-newell.me">andy@herron-newell.me</a>.</p>
+  <footer class="site-footer" id="contact">
+    <nav class="footer-links" aria-label="Footer links">
+      <a href="https://www.linkedin.com/in/andyherron" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:andy@herron-newell.me">andy@herron-newell.me</a>
+    </nav>
+    <p class="footer-copy">&copy; Andy Herron&#8209;Newell</p>
   </footer>
 
   <script>
@@ -447,16 +679,35 @@
     }, { passive: true });
 
     // Scroll-reveal via IntersectionObserver (native — no CDN)
-    const observer = new IntersectionObserver((entries) => {
+    const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
+          revealObserver.unobserve(entry.target);
         }
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // Active nav link tracking as user scrolls (#2 / #9)
+    const sections = document.querySelectorAll('main section[id], header[id]');
+    const navLinks  = document.querySelectorAll('.nav-links a');
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+          });
+        }
+      });
+    }, {
+      threshold: 0,
+      rootMargin: `-${getComputedStyle(document.documentElement).getPropertyValue('--nav-height').trim()} 0px -60% 0px`
+    });
+
+    sections.forEach(s => navObserver.observe(s));
   </script>
 
 </body>
