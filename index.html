@@ -129,7 +129,8 @@
       background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 60%, #0f172a 100%);
       position: relative;
       overflow: hidden;
-      padding: 4rem 5%;
+      /* bottom padding clears the absolute scroll indicator (~5.5rem) plus breathing room */
+      padding: 4rem 5% 10rem;
     }
     /* Subtle dot-grid texture via inline SVG — no external image */
     .hero::before {
@@ -523,12 +524,42 @@
       .achievements-grid { grid-template-columns: 1fr; }
       .about-card,
       .currently-card { padding: 1.75rem; }
+
+      /* Tighten hero vertical spacing on narrow phones */
+      .hero { padding: 3rem 5% 10rem; }
+      .hero-avatar {
+        width: 88px;
+        height: 88px;
+        margin-bottom: 1.1rem;
+      }
+      .hero-avatar-initials { font-size: 1.65rem; }
+      .hero-divider { margin: 1.1rem auto; }
+      .hero-ctas { margin-top: 1.5rem; gap: 0.75rem; }
+      .cta-btn { padding: 0.75rem 1.5rem; font-size: 0.9rem; }
     }
     @media (max-width: 480px) {
       .nav-brand  { display: none; }
       .nav-inner  { justify-content: center; }
       .nav-links  { gap: 1rem; }
       .nav-links a { font-size: 0.75rem; }
+    }
+
+    /* Short screens (landscape phones, compact iPhones) */
+    @media (max-height: 700px) {
+      .hero { padding-top: 2rem; padding-bottom: 8rem; }
+      .hero-avatar { width: 72px; height: 72px; margin-bottom: 0.85rem; }
+      .hero-avatar-initials { font-size: 1.4rem; }
+      .hero-divider { margin: 0.85rem auto; height: 3px; }
+      .hero-subtitle { font-size: 0.95rem; }
+      .hero-ctas { margin-top: 1.1rem; gap: 0.6rem; }
+      .cta-btn { padding: 0.65rem 1.25rem; font-size: 0.85rem; }
+      .scroll-indicator { bottom: calc(2rem + env(safe-area-inset-bottom)); }
+    }
+
+    /* Very short screens — hide scroll indicator to avoid any overlap */
+    @media (max-height: 550px) {
+      .scroll-indicator { display: none; }
+      .hero { padding-bottom: 3rem; }
     }
   </style>
 </head>
