@@ -17,6 +17,21 @@
   <meta name="twitter:description" content="Technology executive with 25+ years building AI-first platforms in regulated industries."/>
   <meta name="twitter:image"      content="https://herron-newell.me/og-image.png"/>
 
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Andy Herron-Newell",
+    "url": "https://herron-newell.me/",
+    "image": "https://herron-newell.me/andy.jpg",
+    "jobTitle": "CTO & Chief AI Officer",
+    "description": "Technology executive with 25+ years building AI-first platforms in regulated industries. Available for CTO and CAIO roles.",
+    "sameAs": ["https://www.linkedin.com/in/andyherron"],
+    "email": "andy@herron-newell.me"
+  }
+  </script>
+
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -544,8 +559,8 @@
     @media (max-width: 480px) {
       .nav-brand  { display: none; }
       .nav-inner  { justify-content: center; }
-      .nav-links  { gap: 1rem; }
-      .nav-links a { font-size: 0.75rem; }
+      .nav-links  { gap: clamp(0.5rem, 3vw, 1rem); }
+      .nav-links a { font-size: clamp(0.65rem, 2.5vw, 0.75rem); }
     }
 
     /* Short screens (landscape phones, compact iPhones) */
@@ -578,7 +593,7 @@
         <li><a href="#currently">Currently</a></li>
         <li><a href="#how-i-work">How I Work</a></li>
         <li><a href="#achievements">Achievements</a></li>
-        <li><a href="mailto:andy@herron-newell.me">Contact</a></li>
+        <li><a href="#contact">Contact</a></li>
       </ul>
     </div>
   </nav>
@@ -589,7 +604,7 @@
       <!-- Avatar / photo slot — replace src with your headshot (#1) -->
       <div class="hero-avatar" aria-hidden="true">
         <span class="hero-avatar-initials">AHN</span>
-        <img src="andy.jpg" alt="Andy Herron-Newell">
+        <img src="andy.jpg" alt="Andy Herron-Newell" onerror="this.style.display='none'">
       </div>
       <h1>Andy Herron&#8209;Newell</h1>
       <span class="hero-divider" aria-hidden="true"></span>
@@ -638,7 +653,8 @@
       <h2 class="section-title reveal reveal-delay-1">Currently</h2>
       <div class="currently-card reveal reveal-delay-2">
         <div class="status-badge">Available for new roles</div>
-        <p>Consulting across a portfolio of stealth-mode startups in HealthTech, BioPharma, and AI — including a Johns Hopkins BioPharma spinout and two UK clinical and primary care platforms — advising on AI architecture, fundraising strategy, and regulatory readiness. Open to CTO and Chief AI Officer conversations at PE/VC-backed scale-ups in regulated industries.</p>
+        <p>Consulting across a portfolio of stealth-mode startups in HealthTech, BioPharma, and AI — including a Johns Hopkins BioPharma spinout and two UK clinical and primary care platforms — advising on AI architecture, fundraising strategy, and regulatory readiness.</p>
+        <p style="margin-top:1rem;">Open to CTO and Chief AI Officer roles at PE/VC&#8209;backed scale&#8209;ups in regulated industries. Particularly interested in Series B+ companies navigating AI transformation, regulatory complexity, or preparing for exit — where technical leadership directly shapes commercial outcomes.</p>
       </div>
     </section>
 
@@ -647,7 +663,8 @@
       <h2 class="section-title reveal reveal-delay-1">How I Work</h2>
       <div class="about-card reveal reveal-delay-2">
         <p>I believe technical credibility isn't something a CTO can delegate. Not because CTOs should be writing production code, they shouldn't, but because the decisions that matter most require you to have genuinely wrestled with the technology, not just read about it.</p>
-        <p>In practice, that means I spend time every week experimenting with emerging tools and building proof-of-concepts — evaluating AI development environments, prototyping RAG pipelines, exploring agentic workflows, or stress-testing a new architectural approach before committing engineering resources to it. This isn't about staying busy technically. It's about being able to walk into an architecture conversation, a board presentation, or a vendor negotiation and speak from direct experience rather than secondhand reports.</p>
+        <p>In practice, that means I spend time every week experimenting with emerging tools and building proof-of-concepts — evaluating AI development environments, prototyping RAG pipelines, exploring agentic workflows, or stress-testing a new architectural approach before committing engineering resources to it.</p>
+        <p>This isn't about staying busy technically. It's about being able to walk into an architecture conversation, a board presentation, or a vendor negotiation and speak from direct experience rather than secondhand reports.</p>
         <p>It also means my engineering teams know I understand the constraints they're working within. That trust changes the quality of every conversation.</p>
       </div>
     </section>
@@ -726,15 +743,20 @@
     document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
     // Active nav link tracking as user scrolls (#2 / #9)
-    const sections = document.querySelectorAll('main section[id], header[id]');
+    const sections = document.querySelectorAll('main section[id], header[id], footer[id]');
     const navLinks  = document.querySelectorAll('.nav-links a');
     const navObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
+        const id = entry.target.getAttribute('id');
         if (entry.isIntersecting) {
-          const id = entry.target.getAttribute('id');
-          navLinks.forEach(link => {
-            link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
-          });
+          if (id === 'home') {
+            // At the top — clear all active states
+            navLinks.forEach(link => link.classList.remove('active'));
+          } else {
+            navLinks.forEach(link => {
+              link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+            });
+          }
         }
       });
     }, {
